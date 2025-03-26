@@ -1,0 +1,36 @@
+<mat-toolbar color="primary">
+  <button (click)="drawer.toggle()" mat-icon-button>
+    <mat-icon>{{ drawer.opened ? 'menu_open' : 'menu' }}</mat-icon>
+  </button>
+  <button (click)="handleRouteChange(Route.HOME, true)" mat-button>{{ title }}</button>
+  <button (click)="handleRouteChange('', true)" mat-button>Home</button>
+  <button (click)="handleRouteChange('', false)" mat-button>Search</button>
+</mat-toolbar>
+
+<mat-drawer-container autosize class="example-container" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+  <mat-drawer [style.width]="'300px'" mode="side" opened>
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel *ngFor="let sideNav of sideNavs; trackBy trackNav">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ sideNav }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+
+</mat-drawer-container>
+
+<ng-template
+  [cdkConnectedOverlayOpen]="loading"
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayPanelClass]="'loader-overlay'"
+  cdkConnectedOverlay
+>
+  <mat-spinner></mat-spinner>
+</ng-template>

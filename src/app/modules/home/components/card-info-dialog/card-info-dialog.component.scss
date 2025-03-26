@@ -1,0 +1,27 @@
+:host {
+  position: relative;
+
+  .action-button, .close-button {
+    cursor: pointer;
+  }
+
+  .close-button {
+    position: absolute;
+    right: 0;
+  }
+
+  .content {
+    display: flex;
+
+    .info {
+      display: flex;
+      flex-direction: column;
+      margin-right: 30px;
+    }
+
+    img {
+      height: 250px;
+      width: 250px;
+    }
+  }
+}

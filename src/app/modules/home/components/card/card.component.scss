@@ -1,0 +1,13 @@
+:host{
+  margin: 10px;
+  cursor: pointer;
+  mat-card {
+    width: 100px;
+    height: 150px;
+  }
+  .pokemon-id {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+}

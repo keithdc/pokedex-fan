@@ -1,4 +1,60 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+$custom-typography: mat.define-typography-config('VT323');
+
+@include mat.all-component-typographies($custom-typography);
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-weight: 400;
+  font-style: normal;
+}
+
+//.pokemon-viewport {
+//  width: 100%;
+//  height: calc(100vh - 66px);
+//  border: 1px solid black;
+//  .cdk-virtual-scroll-content-wrapper {
+//    min-width: calc(100% - 300px) !important;
+//    height: 100vh;
+//    padding: 30px 80px;
+//    display: grid;
+//    grid-template-columns: repeat(auto-fit, minmax(150px, 150px)) !important;
+//  }
+//}
+.pokemon-viewport {
+  width: 100%;
+  height: calc(100vh - 66px);
+  .virtual-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.example-item {
+  height: 50px;
+}
+
+.loader-overlay {
+  left: 50% !important;
+  top: 50%;
+}
+
+.mat-expansion-panel-content {
+  background: #898989;
+}
+
+.row-item-center {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 !important;
+}
