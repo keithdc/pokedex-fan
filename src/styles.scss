@@ -15,24 +15,13 @@ body {
   font-style: normal;
 }
 
-//.pokemon-viewport {
-//  width: 100%;
-//  height: calc(100vh - 66px);
-//  border: 1px solid black;
-//  .cdk-virtual-scroll-content-wrapper {
-//    min-width: calc(100% - 300px) !important;
-//    height: 100vh;
-//    padding: 30px 80px;
-//    display: grid;
-//    grid-template-columns: repeat(auto-fit, minmax(150px, 150px)) !important;
-//  }
-//}
 .pokemon-viewport {
   width: 100%;
   height: calc(100vh - 66px);
   .virtual-container {
     display: flex;
     flex-wrap: wrap;
+    padding: 20px 80px;
   }
 }
 

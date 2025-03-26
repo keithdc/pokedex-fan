@@ -1,10 +1,9 @@
 <ng-container *ngIf="pokemonDomain">
-  <cdk-virtual-scroll-viewport itemSize="25" class="pokemon-viewport">
+  <cdk-virtual-scroll-viewport class="pokemon-viewport" itemSize="29">
     <div class="virtual-container">
       <ng-container *cdkVirtualFor="let pokemon of pokemonDomain.results; trackBy trackPokemon; let index = index">
-        {{index}}
-        <app-card [src]="pokemon.url" [description]="pokemon.name" [id]="index + 1"
-                  [domain]="pokemonDomain.domain"></app-card>
+        <app-card [description]="pokemon.name" [domain]="pokemonDomain.domain"
+                  [id]="pokemon.id ?? index + 1" [src]="pokemon.url"></app-card>
       </ng-container>
     </div>
   </cdk-virtual-scroll-viewport>

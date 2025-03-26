@@ -14,5 +14,5 @@ export abstract class AbstractApiService {
   abstract get(): Observable<AbstractDomainResultsInterface>;
   abstract getById<T>(id: number): Observable<T[]>;
 
-  // abstract search(searchQuery: SearchQuery): Observable<SearchQueryResults>;
+  // abstract search(searchQuery): Observable<AbstractDomainResultsInterface>;
 }

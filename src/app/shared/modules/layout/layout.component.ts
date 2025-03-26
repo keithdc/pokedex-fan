@@ -5,6 +5,10 @@ import {RouteEnum} from '../../enum/route.enum';
 import {CoreService} from '../../service/core/core.service';
 import {debounceTime, takeUntil} from 'rxjs';
 import {AbstractDestroyDirective} from '../../directive/abstract-destroy.directive';
+import {ApiBuilderService} from '../../../api/api-builder/api-builder.service';
+import {AbstractDomainEnum} from '../../../api/abstract/abstract-domain.enum';
+import {AbstractDomainResultsInterface} from '../../../api/abstract/abstract-domain-results.interface';
+import {NavInterface} from './nav.interface';
 
 @Component({
   selector: 'app-layout',
@@ -14,19 +18,20 @@ import {AbstractDestroyDirective} from '../../directive/abstract-destroy.directi
 export class LayoutComponent extends AbstractDestroyDirective implements OnInit {
   @ViewChild(MatDrawer, {static: true}) drawer!: MatDrawer;
   readonly title: string = 'Pokédex Fan';
-  sideNavs: string[] = ['Pokémon', 'Items'];
-  readonly Route = RouteEnum;
+  sideNavs: NavInterface[] = [];
   loading: boolean = false;
+  readonly RouteEnum = RouteEnum;
 
   constructor(
     private router: Router,
-    public coreService: CoreService
+    private coreService: CoreService,
+    private apiBuilderService: ApiBuilderService,
   ) {
     super();
     this.coreService.loading
       .pipe(
         takeUntil(this.unsubscribeAll),
-        debounceTime(50)
+        debounceTime(50),
       )
       .subscribe((loading) => {
         this.loading = loading;
@@ -34,15 +39,46 @@ export class LayoutComponent extends AbstractDestroyDirective implements OnInit 
   }
 
   ngOnInit(): void {
+    this.apiBuilderService.buildApiDomain(AbstractDomainEnum.REGION).get()
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe((region: AbstractDomainResultsInterface) => {
+        const regionNav: NavInterface[] = region.results.flat().map(item => {
+          return {
+            domain: AbstractDomainEnum.REGION,
+            ...item,
+          };
+        });
+        this.sideNavs = [
+          {
+            name: 'Pokémon',
+            domain: AbstractDomainEnum.POKEMON,
+            subNav: [
+              {
+                name: 'All Pokemon',
+                domain: AbstractDomainEnum.POKEMON,
+                route: RouteEnum.HOME,
+              },
+              ...regionNav,
+            ],
+          },
+          {
+            name: 'Items',
+            domain: AbstractDomainEnum.POKEMON,
+          },
+        ];
+      });
   }
 
-  handleRouteChange(route: string, drawerIsOpen: boolean): void {
-    this.router.navigate([route]).then(() => {
+  handleRouteChange(
+    route: string,
+    drawerIsOpen: boolean,
+    {domain, id, url}: { domain?: string, id?: number, url?: string } = {}): void {
+    this.router.navigate([route], url ? {queryParams: {domain, id}} : {}).then(() => {
       this.drawer.toggle(drawerIsOpen).then();
     });
   }
 
-  trackNav(index: number, nav: string): string {
-    return nav;
+  trackNav(index: number, nav: NavInterface): string {
+    return nav.name;
   }
 }

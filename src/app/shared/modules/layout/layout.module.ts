@@ -9,21 +9,23 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {CommonModule} from '@angular/common';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {OverlayModule} from '@angular/cdk/overlay';
+import {MatListModule} from '@angular/material/list';
 
 
 @NgModule({
   declarations: [LayoutComponent],
-  imports: [
-    MatSidenavModule,
-    RouterModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatExpansionModule,
-    CommonModule,
-    MatProgressSpinnerModule,
-    OverlayModule,
-  ],
+    imports: [
+        MatSidenavModule,
+        RouterModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatExpansionModule,
+        CommonModule,
+        MatProgressSpinnerModule,
+        OverlayModule,
+        MatListModule,
+    ],
   exports: [
     LayoutComponent,
   ],

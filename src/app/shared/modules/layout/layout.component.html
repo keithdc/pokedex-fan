@@ -2,20 +2,33 @@
   <button (click)="drawer.toggle()" mat-icon-button>
     <mat-icon>{{ drawer.opened ? 'menu_open' : 'menu' }}</mat-icon>
   </button>
-  <button (click)="handleRouteChange(Route.HOME, true)" mat-button>{{ title }}</button>
+  <button (click)="handleRouteChange(RouteEnum.HOME, true)" mat-button>{{ title }}</button>
   <button (click)="handleRouteChange('', true)" mat-button>Home</button>
   <button (click)="handleRouteChange('', false)" mat-button>Search</button>
 </mat-toolbar>
 
-<mat-drawer-container autosize class="example-container" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+<mat-drawer-container #trigger="cdkOverlayOrigin" autosize cdkOverlayOrigin class="example-container">
   <mat-drawer [style.width]="'300px'" mode="side" opened>
     <mat-accordion class="example-headers-align" multi>
       <mat-expansion-panel *ngFor="let sideNav of sideNavs; trackBy trackNav">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{ sideNav }}
+            {{ sideNav.name }}
           </mat-panel-title>
         </mat-expansion-panel-header>
+
+        <ng-template matExpansionPanelContent>
+          <ng-container *ngIf="sideNav.subNav?.length">
+
+            <mat-action-list>
+              <mat-list-item (click)="handleRouteChange(RouteEnum.HOME, true, {domain: subNav.domain, id: i, url: subNav.url})"
+                             *ngFor="let subNav of sideNav.subNav; trackBy trackNav; let i = index">
+                {{ subNav.name | titlecase }}
+              </mat-list-item>
+            </mat-action-list>
+          </ng-container>
+        </ng-template>
+
       </mat-expansion-panel>
     </mat-accordion>
   </mat-drawer>

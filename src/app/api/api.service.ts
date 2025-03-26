@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, catchError, forkJoin, map, Observable, publishReplay, refCount, throwError} from 'rxjs';
 import {AbstractDomainEnum} from './abstract/abstract-domain.enum';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class ApiService {
 
   get<T>(domain: AbstractDomainEnum, {id}: { id?: number } = {}): Observable<T> {
     const hasLimit = (id === undefined) ? `/?offset=${this.offset.value}&limit=${this.limit.value}` : '';
-    const url = `https://pokeapi.co/api/v2/${domain.toLowerCase().replace('_', '-')}${hasLimit}`;
+    const url = `${environment.apiUrl}${domain.toLowerCase().replace('_', '-')}${hasLimit}`;
     return this.http.get<T>(`${url}${id ? '/' + id : ''}`).pipe(
       catchError(this.handleError<T>(domain.toLowerCase())),
       map(res => this.mapDomain(res, domain)),
@@ -32,7 +33,7 @@ export class ApiService {
   getByArray<T>(domains: AbstractDomainEnum[], {id}: { id?: number } = {}): Observable<T[]> {
     const domainObs = domains.map(domain => {
       const hasLimit = (id === undefined) ? `/?offset=${this.offset.value}&limit=${this.limit.value}` : '';
-      const url = `https://pokeapi.co/api/v2/${domain.toLowerCase().replace('_', '-')}${hasLimit}`;
+      const url = `${environment.apiUrl}${domain.toLowerCase().replace('_', '-')}${hasLimit}`;
       return this.http.get<T>(`${url}${id ? '/' + id : ''}`);
     });
     return forkJoin(domainObs).pipe(

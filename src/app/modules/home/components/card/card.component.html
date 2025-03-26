@@ -1,7 +1,7 @@
 <mat-card (click)="handleShowPokemon()">
-  <img [src]="src | sprite: 'front_default' | async" alt="Pokemon" mat-card-image>
-  <mat-card-content [style.text-align]="'center'">
+  <img [src]="src | sprite: 'front_default' | async" mat-card-image>
+  <mat-card-content class="card-content">
     <div *ngIf="id" class="pokemon-id">#{{ id }}</div>
-    {{ description | titlecase }}
+    <span>{{ description | titlecase }}</span>
   </mat-card-content>
 </mat-card>
