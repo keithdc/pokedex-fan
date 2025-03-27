@@ -1,18 +1,18 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CardInfoDialogComponent} from './card-info-dialog.component';
+import {ItemCardDialogComponent} from './item-card-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatCardModule} from '@angular/material/card';
-import {SharedPipeModule} from '../../../../shared/pipe/shared-pipe.module';
+import {SharedPipeModule} from '../../pipe/shared-pipe.module';
 import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
-  declarations: [CardInfoDialogComponent],
+  declarations: [ItemCardDialogComponent],
   imports: [
     CommonModule,
     MatDialogModule,
@@ -24,10 +24,10 @@ import {MatExpansionModule} from '@angular/material/expansion';
     SharedPipeModule,
     MatExpansionModule,
   ],
-  exports: [CardInfoDialogComponent]
+  exports: [ItemCardDialogComponent]
 })
-export class CardInfoDialogModule {
-  static get cardInfoDialogComponent(): typeof CardInfoDialogComponent {
-    return CardInfoDialogComponent;
+export class ItemCardDialogModule {
+  static get itemCardDialogComponent(): typeof ItemCardDialogComponent {
+    return ItemCardDialogComponent;
   }
 }

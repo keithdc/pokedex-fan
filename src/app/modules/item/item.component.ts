@@ -11,11 +11,9 @@ import {
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {CardContentLayoutEnum} from '../../shared/modules/item-card/card-content-layout.enum';
-import {DialogDataInterface} from '../../shared/modules/card-info-dialog/dialog-data.interface';
-import {PokemonTypeEnum} from '../../shared/enum/pokemon-type.enum';
 import {MatDialogConfig} from '@angular/material/dialog';
 import {LazyDialogService} from '../../shared/service/lazy-dialog/lazy-dialog.service';
-import {CardInfoDialogComponent} from '../../shared/modules/card-info-dialog/card-info-dialog.component';
+import {ItemCardDialogDataInterface} from '../../shared/modules/item-card-dialog/item-card-dialog-data.interface';
 
 @Component({
   selector: 'app-item',
@@ -28,7 +26,7 @@ export class ItemComponent extends AbstractDestroyDirective {
 
   constructor(
     private apiBuilderService: ApiBuilderService,
-    private lazyDialogService: LazyDialogService<CardInfoDialogComponent>,
+    private lazyDialogService: LazyDialogService<ItemCardDialogDataInterface>,
     private route: ActivatedRoute,
   ) {
     super();
@@ -44,21 +42,21 @@ export class ItemComponent extends AbstractDestroyDirective {
       this.apiBuilderService.buildApiDomain(this.itemDomain.domain).getById(+domain.id)
         .pipe(switchMap((domains) => {
           const item = domains[0] as any;
-          console.log(item)
+          console.log(item);
           const description = item.flavor_text_entries.find((entry: any) => entry.language.name === 'en').text;
-          const data: DialogDataInterface = {
+          const data: ItemCardDialogDataInterface = {
             id: `Entry no. ${item.id}`,
             name: item.name,
             category: item.category.name,
             description,
             effect: item.effect_entries[0].effect,
-            imageUrl: item.sprites['default']
+            imageUrl: item.sprites['default'],
           };
           const config: MatDialogConfig = {
             data,
           };
           return this.lazyDialogService.createDialog(
-            import('../../shared/modules/card-info-dialog/card-info-dialog.module'), 'CardInfoDialogModule', 'cardInfoDialogComponent', config)
+            import('../../shared/modules/item-card-dialog/item-card-dialog.module'), 'ItemCardDialogModule', 'itemCardDialogComponent', config)
             .pipe(switchMap((pokemon) => {
               return of(pokemon);
             }));

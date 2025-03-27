@@ -10,11 +10,11 @@ import {
 } from '../../api/abstract/abstract-domain-results.interface';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
-import {DialogDataInterface} from '../../shared/modules/card-info-dialog/dialog-data.interface';
 import {PokemonTypeEnum} from '../../shared/enum/pokemon-type.enum';
 import {MatDialogConfig} from '@angular/material/dialog';
 import {LazyDialogService} from '../../shared/service/lazy-dialog/lazy-dialog.service';
-import {CardInfoDialogComponent} from '../../shared/modules/card-info-dialog/card-info-dialog.component';
+import {ItemCardDialogComponent} from '../../shared/modules/item-card-dialog/item-card-dialog.component';
+import {ItemCardDialogDataInterface} from '../../shared/modules/item-card-dialog/item-card-dialog-data.interface';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +26,7 @@ export class HomeComponent extends AbstractDestroyDirective {
 
   constructor(
     private apiBuilderService: ApiBuilderService,
-    private lazyDialogService: LazyDialogService<CardInfoDialogComponent>,
+    private lazyDialogService: LazyDialogService<ItemCardDialogComponent>,
     private route: ActivatedRoute,
   ) {
     super();
@@ -45,7 +45,7 @@ export class HomeComponent extends AbstractDestroyDirective {
           const pokemon = domains[0] as any;
           const species = domains[1] as any;
           const description = species.flavor_text_entries.find((entry: any) => entry.language.name === 'en').flavor_text;
-          const data: DialogDataInterface = {
+          const data: ItemCardDialogDataInterface = {
             id: `No. ${pokemon.id}`,
             name: pokemon.name,
             description,
@@ -62,7 +62,7 @@ export class HomeComponent extends AbstractDestroyDirective {
             data,
           };
           return this.lazyDialogService.createDialog(
-            import('../../shared/modules/card-info-dialog/card-info-dialog.module'), 'CardInfoDialogModule', 'cardInfoDialogComponent', config)
+            import('../../shared/modules/item-card-dialog/item-card-dialog.module'), 'ItemCardDialogModule', 'itemCardDialogComponent', config)
             .pipe(switchMap((pokemon) => {
               return of(pokemon);
             }));

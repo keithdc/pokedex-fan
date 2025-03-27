@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardInfoDialogComponent } from './card-info-dialog.component';
+import { ItemCardDialogComponent } from './item-card-dialog.component';
 
 describe('PokemonComponent', () => {
-  let component: CardInfoDialogComponent;
-  let fixture: ComponentFixture<CardInfoDialogComponent>;
+  let component: ItemCardDialogComponent;
+  let fixture: ComponentFixture<ItemCardDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CardInfoDialogComponent ]
+      declarations: [ ItemCardDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CardInfoDialogComponent);
+    fixture = TestBed.createComponent(ItemCardDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
