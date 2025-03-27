@@ -5,7 +5,7 @@ import {AbstractDestroyDirective} from '../../shared/directive/abstract-destroy.
 import {of, switchMap, takeUntil} from 'rxjs';
 import {
   AbstractDomainResultsInterface,
-  DomainResultsInterface,
+  DomainResultsInterface, PokemonEntries,
 } from '../../api/abstract/abstract-domain-results.interface';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
@@ -38,32 +38,23 @@ export class HomeComponent extends AbstractDestroyDirective {
           const domain = params['domain'];
           if (domain) {
             return this.apiBuilderService.buildApiDomain(params['domain'])
-              .getById(params['id'])
+              .getById<PokemonEntries>(params['id'])
               .pipe(
-                switchMap((region) => {
-                  // Need to use any the interface of Region are huge
-                  const id = (region[0] as any).pokedexes[0].url.split(/\/+/).filter((uri: string) => uri !== '');
-                  return this.apiBuilderService.buildApiDomain(AbstractDomainEnum.POKEDEX)
-                    .getById(id.pop())
-                    .pipe(
-                      switchMap((res) => {
-                        // Need to use any the interface of Pokedex are huge
-                        const pokemonEntriesMap = ((res[0]) as any).pokemon_entries.map((entry: any) => {
-                            const pokemon_species = entry.pokemon_species.url.split(/\/+/).filter((uri: string) => uri !== '');
-                            const id = pokemon_species.pop();
-                            return {
-                              name: entry.pokemon_species.name,
-                              id,
-                              url: `${environment.apiUrl}${AbstractDomainEnum.POKEMON.toLowerCase()}/${id}`,
-                            };
-                          },
-                        );
-                        return of({
-                          domain: AbstractDomainEnum.POKEMON,
-                          results: pokemonEntriesMap,
-                        });
-                      }),
-                    );
+                switchMap((pokedex) => {
+                  const pokemonEntriesMap = pokedex[0].pokemon_entries.map(species => {
+                    const pokemon_species = species.pokemon_species.url.split(/\/+/).filter((uri: string) => uri !== '');
+                    const id = pokemon_species.pop();
+                    return {
+                      name: species.pokemon_species.name,
+                      id,
+                      url: `${environment.apiUrl}${AbstractDomainEnum.POKEMON.toLowerCase()}/${id}`,
+                    };
+                  });
+
+                  return of({
+                    domain: AbstractDomainEnum.POKEMON,
+                    results: pokemonEntriesMap,
+                  });
                 }),
               );
           }

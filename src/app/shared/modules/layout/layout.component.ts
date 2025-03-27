@@ -39,12 +39,12 @@ export class LayoutComponent extends AbstractDestroyDirective implements OnInit 
   }
 
   ngOnInit(): void {
-    this.apiBuilderService.buildApiDomain(AbstractDomainEnum.REGION).get()
+    this.apiBuilderService.buildApiDomain(AbstractDomainEnum.POKEDEX).get()
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe((region: AbstractDomainResultsInterface) => {
         const regionNav: NavInterface[] = region.results.flat().map(item => {
           return {
-            domain: AbstractDomainEnum.REGION,
+            domain: AbstractDomainEnum.POKEDEX,
             ...item,
           };
         });
