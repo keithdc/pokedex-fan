@@ -24,7 +24,7 @@ export class LazyDialogService<R> {
       return this.compileModule(m[module as keyof typeof NgModule]).then(() => {
         const myComponent = m[module as keyof typeof NgModule][component as keyof typeof Component];
         const matDialogConfig: MatDialogConfig = {
-          width: '25vw',
+          width: '450px',
           height: '80vh',
         };
         this.ref = this.dialog

@@ -5,4 +5,6 @@ export enum AbstractDomainEnum {
   POKEDEX = 'POKEDEX',
   POKEMON_SPECIES = 'POKEMON_SPECIES',
   ITEM = 'ITEM',
+  ITEM_CATEGORY = 'ITEM_CATEGORY',
+  BERRY = 'BERRY',
 }

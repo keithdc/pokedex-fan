@@ -3,7 +3,7 @@ import {MatDrawer} from '@angular/material/sidenav';
 import {Router} from '@angular/router';
 import {RouteEnum} from '../../enum/route.enum';
 import {CoreService} from '../../service/core/core.service';
-import {debounceTime, takeUntil} from 'rxjs';
+import {debounceTime, forkJoin, takeUntil} from 'rxjs';
 import {AbstractDestroyDirective} from '../../directive/abstract-destroy.directive';
 import {ApiBuilderService} from '../../../api/api-builder/api-builder.service';
 import {AbstractDomainEnum} from '../../../api/abstract/abstract-domain.enum';
@@ -39,12 +39,21 @@ export class LayoutComponent extends AbstractDestroyDirective implements OnInit 
   }
 
   ngOnInit(): void {
-    this.apiBuilderService.buildApiDomain(AbstractDomainEnum.POKEDEX).get()
-      .pipe(takeUntil(this.unsubscribeAll))
-      .subscribe((region: AbstractDomainResultsInterface) => {
+    forkJoin([
+      this.apiBuilderService.buildApiDomain(AbstractDomainEnum.POKEDEX).get(),
+      this.apiBuilderService.buildApiDomain(AbstractDomainEnum.ITEM_CATEGORY).get()
+    ]).pipe(takeUntil(this.unsubscribeAll))
+      .subscribe(([region, itemCategory]) => {
         const regionNav: NavInterface[] = region.results.flat().map(item => {
           return {
             domain: AbstractDomainEnum.POKEDEX,
+            ...item,
+          };
+        });
+        const itemNav: NavInterface[] = itemCategory.results.flat().map(item => {
+          return {
+            domain: AbstractDomainEnum.ITEM_CATEGORY,
+            route: RouteEnum.ITEM,
             ...item,
           };
         });
@@ -57,6 +66,7 @@ export class LayoutComponent extends AbstractDestroyDirective implements OnInit 
                 name: 'All Pokemon',
                 domain: AbstractDomainEnum.POKEMON,
                 route: RouteEnum.HOME,
+                default: true,
               },
               ...regionNav,
             ],
@@ -64,16 +74,20 @@ export class LayoutComponent extends AbstractDestroyDirective implements OnInit 
           {
             name: 'Items',
             domain: AbstractDomainEnum.POKEMON,
+            subNav: [
+              ...itemNav,
+            ],
           },
         ];
       });
+
   }
 
   handleRouteChange(
     route: string,
     drawerIsOpen: boolean,
-    {domain, id, url}: { domain?: string, id?: number, url?: string } = {}): void {
-    this.router.navigate([route], url ? {queryParams: {domain, id}} : {}).then(() => {
+    {domain, id, url, defaultPage}: { domain?: string, id?: number, url?: string , defaultPage?: boolean} = {}): void {
+    this.router.navigate([route], !defaultPage ? {queryParams: {domain, id}} : {}).then(() => {
       this.drawer.toggle(drawerIsOpen).then();
     });
   }

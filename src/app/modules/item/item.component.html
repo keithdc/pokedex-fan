@@ -1,0 +1,16 @@
+<ng-container *ngIf="itemDomain">
+  <cdk-virtual-scroll-viewport class="pokemon-viewport" itemSize="29">
+    <div class="virtual-container">
+      <ng-container *cdkVirtualFor="let item of itemDomain.results; trackBy trackPokemon; let index = index">
+        <app-card-content [domain]="itemDomain.domain" [domainData]="item" [layout]="CardLayoutEnum.ROW"  [srcProps]="'default'">
+          <ng-container slot="app-title">
+            Title
+          </ng-container>
+          <ng-container slot="app-sub-title">
+            SUB
+          </ng-container>
+        </app-card-content>
+      </ng-container>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</ng-container>

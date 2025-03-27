@@ -1,0 +1,37 @@
+<mat-icon class="close-button" mat-dialog-close>close</mat-icon>
+<div mat-dialog-title>
+  <div class="content">
+    <div class="info">
+      <h2 *ngIf="data.id" class="row-item-center">
+        <span [style.margin-right]="'10px'">No. {{ data.id }}</span>
+        <mat-icon (click)="playAudio()" class="action-button">play_arrow</mat-icon>
+      </h2>
+      <h1>{{ data.name | titlecase }} </h1>
+      <mat-chip-list [style.margin-top]="'15px'">
+        <ng-container *ngFor="let pokemon of data.types; trackBy trackType; let i = index">
+          <mat-chip [style.background-color]="pokemon.color">{{ pokemon.type }}</mat-chip>
+        </ng-container>
+      </mat-chip-list>
+    </div>
+
+    <img [src]="data.imageUrl" alt="Pokemon" mat-card-image>
+  </div>
+</div>
+
+<div mat-dialog-content>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header [collapsedHeight]="'38px'" [expandedHeight]="'38px'"
+                                  [style.background-color]="'violet'">
+        <mat-panel-title>
+          Description
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div>
+          {{data.description}}
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

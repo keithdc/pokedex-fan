@@ -20,9 +20,9 @@ export class ApiService {
   }
 
   get<T>(domain: AbstractDomainEnum, {id}: { id?: number } = {}): Observable<T> {
-    const hasLimit = (id === undefined) ? `/?offset=${this.offset.value}&limit=${this.limit.value}` : '';
-    const url = `${environment.apiUrl}${domain.toLowerCase().replace('_', '-')}${hasLimit}`;
-    return this.http.get<T>(`${url}${id ? '/' + id : ''}`).pipe(
+    const hasLimit = !id ? `/?offset=${this.offset.value}&limit=${this.limit.value}` : '';
+    const url = `${environment.apiUrl}${domain.toLowerCase().replace('_', '-')}${id ? '/' + id : ''}${hasLimit}`;
+    return this.http.get<T>(`${url}`).pipe(
       catchError(this.handleError<T>(domain.toLowerCase())),
       map(res => this.mapDomain(res, domain)),
       publishReplay(1), // this tells Rx to cache the latest emitted
@@ -32,9 +32,9 @@ export class ApiService {
 
   getByArray<T>(domains: AbstractDomainEnum[], {id}: { id?: number } = {}): Observable<T[]> {
     const domainObs = domains.map(domain => {
-      const hasLimit = (id === undefined) ? `/?offset=${this.offset.value}&limit=${this.limit.value}` : '';
-      const url = `${environment.apiUrl}${domain.toLowerCase().replace('_', '-')}${hasLimit}`;
-      return this.http.get<T>(`${url}${id ? '/' + id : ''}`);
+      const hasLimit = !id ? `/?offset=${this.offset.value}&limit=${this.limit.value}` : '';
+      const url = `${environment.apiUrl}${domain.toLowerCase().replace('_', '-')}${id ? '/' + id : ''}${hasLimit}`;
+      return this.http.get<T>(`${url}`);
     });
     return forkJoin(domainObs).pipe(
       map(res => res.map((obj, index) => this.mapDomain(obj, domains[index]))),

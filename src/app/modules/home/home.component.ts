@@ -2,13 +2,19 @@ import {Component} from '@angular/core';
 import {ApiBuilderService} from '../../api/api-builder/api-builder.service';
 import {AbstractDomainEnum} from '../../api/abstract/abstract-domain.enum';
 import {AbstractDestroyDirective} from '../../shared/directive/abstract-destroy.directive';
-import {of, switchMap, takeUntil} from 'rxjs';
+import {map, of, switchMap, takeUntil} from 'rxjs';
 import {
   AbstractDomainResultsInterface,
-  DomainResultsInterface, PokemonEntries,
+  DomainResultsInterface,
+  PokemonEntries,
 } from '../../api/abstract/abstract-domain-results.interface';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
+import {DialogDataInterface} from './components/card-info-dialog/dialog-data.interface';
+import {PokemonTypeEnum} from '../../shared/enum/pokemon-type.enum';
+import {MatDialogConfig} from '@angular/material/dialog';
+import {LazyDialogService} from '../../shared/service/lazy-dialog/lazy-dialog.service';
+import {CardInfoDialogComponent} from './components/card-info-dialog/card-info-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +26,7 @@ export class HomeComponent extends AbstractDestroyDirective {
 
   constructor(
     private apiBuilderService: ApiBuilderService,
+    private lazyDialogService: LazyDialogService<CardInfoDialogComponent>,
     private route: ActivatedRoute,
   ) {
     super();
@@ -30,6 +37,40 @@ export class HomeComponent extends AbstractDestroyDirective {
     return pokemon.url;
   }
 
+  handleShowPokemon(domain: DomainResultsInterface): void {
+    if (domain.id && this.pokemonDomain) {
+      this.apiBuilderService.buildApiDomain(this.pokemonDomain.domain).getById(+domain.id)
+        .pipe(switchMap((domains) => {
+          // Need to use any the interface of these api are huge
+          const pokemon = domains[0] as any;
+          const species = domains[1] as any;
+          const data: DialogDataInterface = {
+            id: pokemon.id,
+            name: pokemon.name,
+            description: species.flavor_text_entries[0].flavor_text,
+            types: pokemon.types.map((type: any) => {
+              return {
+                type: type.type.name,
+                color: PokemonTypeEnum[type.type.name as keyof typeof PokemonTypeEnum],
+              };
+            }),
+            imageUrl: pokemon.sprites.other['official-artwork'].front_default,
+            cries: pokemon.cries.latest,
+          };
+          const config: MatDialogConfig = {
+            data,
+          };
+          return this.lazyDialogService.createDialog(
+            import('./components/card-info-dialog/card-info-dialog.module'), 'CardInfoDialogModule', 'cardInfoDialogComponent', config)
+            .pipe(switchMap((pokemon) => {
+              return of(pokemon);
+            }));
+        }))
+        .subscribe();
+    }
+
+  }
+
   private listenToParam(): void {
     this.route.queryParams
       .pipe(
@@ -37,7 +78,7 @@ export class HomeComponent extends AbstractDestroyDirective {
         switchMap((params) => {
           const domain = params['domain'];
           if (domain) {
-            return this.apiBuilderService.buildApiDomain(params['domain'])
+            return this.apiBuilderService.buildApiDomain(domain)
               .getById<PokemonEntries>(params['id'])
               .pipe(
                 switchMap((pokedex) => {
@@ -54,11 +95,24 @@ export class HomeComponent extends AbstractDestroyDirective {
                   return of({
                     domain: AbstractDomainEnum.POKEMON,
                     results: pokemonEntriesMap,
-                  });
+                  } as AbstractDomainResultsInterface);
                 }),
               );
           }
-          return this.apiBuilderService.buildApiDomain(AbstractDomainEnum.POKEMON).get();
+          return this.apiBuilderService.buildApiDomain(AbstractDomainEnum.POKEMON).get().pipe(
+            map((pokemon) => {
+              const results = pokemon.results.map((pokemon, index) => {
+                return {
+                  ...pokemon,
+                  id: index + 1,
+                };
+              });
+              return {
+                ...pokemon,
+                results,
+              } as AbstractDomainResultsInterface;
+            }),
+          );
         }),
       )
       .subscribe((pokemonDomain: AbstractDomainResultsInterface) => {

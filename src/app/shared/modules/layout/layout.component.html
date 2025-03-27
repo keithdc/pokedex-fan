@@ -21,8 +21,9 @@
           <ng-container *ngIf="sideNav.subNav?.length">
 
             <mat-action-list>
-              <mat-list-item (click)="handleRouteChange(RouteEnum.HOME, true, {domain: subNav.domain, id: i, url: subNav.url})"
-                             *ngFor="let subNav of sideNav.subNav; trackBy trackNav; let i = index">
+              <mat-list-item
+                (click)="handleRouteChange(subNav?.route ?? '', true, {domain: subNav.domain, id: i + 1, url: subNav.url, defaultPage: subNav.default})"
+                *ngFor="let subNav of sideNav.subNav; trackBy trackNav; let i = index">
                 {{ subNav.name | titlecase }}
               </mat-list-item>
             </mat-action-list>

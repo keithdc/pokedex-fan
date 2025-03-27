@@ -6,8 +6,8 @@ import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ItemService extends AbstractApiService {
-  private domain: AbstractDomainEnum = AbstractDomainEnum.ITEM;
+export class BerryService extends AbstractApiService {
+  private domain: AbstractDomainEnum = AbstractDomainEnum.BERRY;
 
   override get<AbstractDomainResultsInterface>(): Observable<AbstractDomainResultsInterface> {
     return this.apiService.get(this.domain);

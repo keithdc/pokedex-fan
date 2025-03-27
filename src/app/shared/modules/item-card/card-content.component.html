@@ -1,0 +1,13 @@
+<mat-card [ngStyle]="cardStyle" (click)="cardClicked.emit(domainData)">
+  <div>
+    <ng-content select="[slot=app-title]"></ng-content>
+    <ng-content select="[slot=app-sub-title]"></ng-content>
+  </div>
+  <img [src]="domainData.url | sprite: srcProps | async" [style.width]="'100px'" mat-card-image>
+  <div class="card-content">
+    <div class="pokemon-id">
+      <ng-content select="[slot=app-id]"></ng-content>
+    </div>
+    <ng-content select="[slot=app-bottom-title]"></ng-content>
+  </div>
+</mat-card>

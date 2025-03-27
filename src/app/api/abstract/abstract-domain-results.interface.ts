@@ -7,16 +7,21 @@ export interface AbstractDomainResultsInterface extends AbstractDomainInterface 
   results: DomainResultsInterface[]
 }
 
+export interface Item extends AbstractDomainInterface {
+  name: string,
+  items: DomainResultsInterface[]
+}
+
 export interface PokemonEntries extends AbstractDomainInterface {
-  pokemon_entries: PokemonSpecies[]
+  pokemon_entries: PokemonSpecies[];
 }
 
 export interface PokemonSpecies {
-  pokemon_species: DomainResultsInterface
+  pokemon_species: DomainResultsInterface;
 }
 
 export interface DomainResultsInterface {
-  id?: number | string;
+  id: number | string;
   name: string,
   url: string,
 }

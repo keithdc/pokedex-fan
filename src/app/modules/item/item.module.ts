@@ -1,25 +1,26 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {HomeRoutingModule} from './home-routing.module';
-import {HomeComponent} from './home.component';
+import {ItemRoutingModule} from './item-routing.module';
+import {ItemComponent} from './item.component';
 import {SharedPipeModule} from '../../shared/pipe/shared-pipe.module';
 import {MatCardModule} from '@angular/material/card';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import {CardContentComponent} from '../../shared/modules/item-card/card-content.component';
 import {CardContentModule} from '../../shared/modules/item-card/card-content.module';
 
 
 @NgModule({
   declarations: [
-    HomeComponent,
+    ItemComponent,
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule,
+    ItemRoutingModule,
     SharedPipeModule,
     MatCardModule,
     ScrollingModule,
-    CardContentModule,
+    CardContentModule
   ],
 })
-export class HomeModule {
+export class ItemModule {
 }
