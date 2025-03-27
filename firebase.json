@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "/keithdc/pokedex-fan",
+    "public": "dist/pokedex-fan",
     "ignore": [
       "firebase.json",
       "**/.*",
