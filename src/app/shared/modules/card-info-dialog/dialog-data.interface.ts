@@ -2,6 +2,7 @@ export interface DialogDataInterface {
   id: string;
   name: string;
   description: string;
+  category?: string;
   effect?: string;
   types?: PokemonTypeColor[];
   imageUrl: string;

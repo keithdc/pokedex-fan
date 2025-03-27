@@ -7,6 +7,7 @@
         <mat-icon (click)="playAudio()" *ngIf="data.cries" class="action-button">play_arrow</mat-icon>
       </h2>
       <h1>{{ data.name | titlecase }} </h1>
+      <h3 *ngIf="data.category">{{ data.category | titlecase }} </h3>
       <mat-chip-list [style.margin-top]="'15px'">
         <ng-container *ngFor="let pokemon of data.types; trackBy trackType; let i = index">
           <mat-chip [style.background-color]="pokemon.color">{{ pokemon.type }}</mat-chip>
