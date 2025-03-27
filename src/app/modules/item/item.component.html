@@ -2,12 +2,18 @@
   <cdk-virtual-scroll-viewport class="pokemon-viewport" itemSize="29">
     <div class="virtual-container">
       <ng-container *cdkVirtualFor="let item of itemDomain.results; trackBy trackPokemon; let index = index">
-        <app-card-content [domain]="itemDomain.domain" [domainData]="item" [layout]="CardLayoutEnum.ROW"  [srcProps]="'default'">
+        <app-card-content (cardClicked)="handleShowItem(item)" [domainData]="item" [domain]="itemDomain.domain"
+                          [layout]="CardLayoutEnum.ROW"
+                          [srcProps]="'default'">
           <ng-container slot="app-title">
-            Title
+            <h1 [style.width]="'100px'">
+              {{ item.name.split('-')[0] }}
+            </h1>
           </ng-container>
           <ng-container slot="app-sub-title">
-            SUB
+            <h3 [style.width]="'100px'">
+              {{ item.name.split('-')[1] }}
+            </h3>
           </ng-container>
         </app-card-content>
       </ng-container>

@@ -1,10 +1,11 @@
 export interface DialogDataInterface {
-  id?: number;
+  id: string;
   name: string;
   description: string;
-  types: PokemonTypeColor[];
+  effect?: string;
+  types?: PokemonTypeColor[];
   imageUrl: string;
-  cries: string;
+  cries?: string;
 }
 
 export interface PokemonTypeColor {

@@ -12,11 +12,16 @@
     height: 150px;
     display: flex;
   }
+
   .card-content {
     display: flex;
     align-items: end;
     justify-content: center;
     flex-grow: 1;
+  }
+
+  .column-item-center {
+    align-self: baseline;
   }
 
   .pokemon-id {

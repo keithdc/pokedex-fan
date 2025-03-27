@@ -1,5 +1,5 @@
 <mat-card [ngStyle]="cardStyle" (click)="cardClicked.emit(domainData)">
-  <div>
+  <div class="column-item-center">
     <ng-content select="[slot=app-title]"></ng-content>
     <ng-content select="[slot=app-sub-title]"></ng-content>
   </div>

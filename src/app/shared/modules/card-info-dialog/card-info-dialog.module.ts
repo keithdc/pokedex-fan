@@ -7,7 +7,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatCardModule} from '@angular/material/card';
-import {SharedPipeModule} from '../../../../shared/pipe/shared-pipe.module';
+import {SharedPipeModule} from '../../pipe/shared-pipe.module';
 import {MatExpansionModule} from '@angular/material/expansion';
 
 

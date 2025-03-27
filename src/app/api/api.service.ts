@@ -15,7 +15,7 @@ export class ApiService {
   }
 
   clearCache(): void {
-    this.limit.next(30);
+    this.limit.next(999);
     this.offset.next(0);
   }
 

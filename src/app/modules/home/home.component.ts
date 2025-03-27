@@ -10,11 +10,11 @@ import {
 } from '../../api/abstract/abstract-domain-results.interface';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
-import {DialogDataInterface} from './components/card-info-dialog/dialog-data.interface';
+import {DialogDataInterface} from '../../shared/modules/card-info-dialog/dialog-data.interface';
 import {PokemonTypeEnum} from '../../shared/enum/pokemon-type.enum';
 import {MatDialogConfig} from '@angular/material/dialog';
 import {LazyDialogService} from '../../shared/service/lazy-dialog/lazy-dialog.service';
-import {CardInfoDialogComponent} from './components/card-info-dialog/card-info-dialog.component';
+import {CardInfoDialogComponent} from '../../shared/modules/card-info-dialog/card-info-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -44,10 +44,11 @@ export class HomeComponent extends AbstractDestroyDirective {
           // Need to use any the interface of these api are huge
           const pokemon = domains[0] as any;
           const species = domains[1] as any;
+          const description = species.flavor_text_entries.find((entry: any) => entry.language.name === 'en').flavor_text;
           const data: DialogDataInterface = {
-            id: pokemon.id,
+            id: `No. ${pokemon.id}`,
             name: pokemon.name,
-            description: species.flavor_text_entries[0].flavor_text,
+            description,
             types: pokemon.types.map((type: any) => {
               return {
                 type: type.type.name,
@@ -61,14 +62,13 @@ export class HomeComponent extends AbstractDestroyDirective {
             data,
           };
           return this.lazyDialogService.createDialog(
-            import('./components/card-info-dialog/card-info-dialog.module'), 'CardInfoDialogModule', 'cardInfoDialogComponent', config)
+            import('../../shared/modules/card-info-dialog/card-info-dialog.module'), 'CardInfoDialogModule', 'cardInfoDialogComponent', config)
             .pipe(switchMap((pokemon) => {
               return of(pokemon);
             }));
         }))
         .subscribe();
     }
-
   }
 
   private listenToParam(): void {

@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {DialogDataInterface, PokemonTypeColor} from './dialog-data.interface';
-import {PokemonTypeEnum} from '../../../../shared/enum/pokemon-type.enum';
+import {PokemonTypeEnum} from '../../enum/pokemon-type.enum';
 
 @Component({
   selector: 'app-card-info-dialog',

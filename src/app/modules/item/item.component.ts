@@ -11,6 +11,11 @@ import {
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {CardContentLayoutEnum} from '../../shared/modules/item-card/card-content-layout.enum';
+import {DialogDataInterface} from '../../shared/modules/card-info-dialog/dialog-data.interface';
+import {PokemonTypeEnum} from '../../shared/enum/pokemon-type.enum';
+import {MatDialogConfig} from '@angular/material/dialog';
+import {LazyDialogService} from '../../shared/service/lazy-dialog/lazy-dialog.service';
+import {CardInfoDialogComponent} from '../../shared/modules/card-info-dialog/card-info-dialog.component';
 
 @Component({
   selector: 'app-item',
@@ -23,6 +28,7 @@ export class ItemComponent extends AbstractDestroyDirective {
 
   constructor(
     private apiBuilderService: ApiBuilderService,
+    private lazyDialogService: LazyDialogService<CardInfoDialogComponent>,
     private route: ActivatedRoute,
   ) {
     super();
@@ -31,6 +37,32 @@ export class ItemComponent extends AbstractDestroyDirective {
 
   trackPokemon(index: number, pokemon: DomainResultsInterface): string {
     return pokemon.url;
+  }
+
+  handleShowItem(domain: DomainResultsInterface): void {
+    if (domain.id && this.itemDomain) {
+      this.apiBuilderService.buildApiDomain(this.itemDomain.domain).getById(+domain.id)
+        .pipe(switchMap((domains) => {
+          const item = domains[0] as any;
+          const description = item.flavor_text_entries.find((entry: any) => entry.language.name === 'en').text;
+          const data: DialogDataInterface = {
+            id: `Entry no. ${item.id}`,
+            name: item.name,
+            description,
+            effect: item.effect_entries[0].effect,
+            imageUrl: item.sprites['default']
+          };
+          const config: MatDialogConfig = {
+            data,
+          };
+          return this.lazyDialogService.createDialog(
+            import('../../shared/modules/card-info-dialog/card-info-dialog.module'), 'CardInfoDialogModule', 'cardInfoDialogComponent', config)
+            .pipe(switchMap((pokemon) => {
+              return of(pokemon);
+            }));
+        }))
+        .subscribe();
+    }
   }
 
   private listenToParam(): void {
@@ -59,7 +91,6 @@ export class ItemComponent extends AbstractDestroyDirective {
       )
       .subscribe((itemDomain: AbstractDomainResultsInterface) => {
         this.itemDomain = itemDomain;
-        console.log(itemDomain);
       });
   }
 }
