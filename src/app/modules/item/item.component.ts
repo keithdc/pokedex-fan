@@ -10,10 +10,10 @@ import {
 } from '../../api/abstract/abstract-domain-results.interface';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
-import {CardContentLayoutEnum} from '../../shared/modules/item-card/card-content-layout.enum';
 import {MatDialogConfig} from '@angular/material/dialog';
 import {LazyDialogService} from '../../shared/service/lazy-dialog/lazy-dialog.service';
-import {ItemCardDialogDataInterface} from '../../shared/modules/item-card-dialog/item-card-dialog-data.interface';
+import {CardInfoDialogDataInterface} from '../../shared/modules/card-info-dialog/card-info-dialog-data.interface';
+import {CardContentLayoutEnum} from '../../shared/modules/card-content/card-content-layout.enum';
 
 @Component({
   selector: 'app-item',
@@ -26,7 +26,7 @@ export class ItemComponent extends AbstractDestroyDirective {
 
   constructor(
     private apiBuilderService: ApiBuilderService,
-    private lazyDialogService: LazyDialogService<ItemCardDialogDataInterface>,
+    private lazyDialogService: LazyDialogService<CardInfoDialogDataInterface>,
     private route: ActivatedRoute,
   ) {
     super();
@@ -44,7 +44,7 @@ export class ItemComponent extends AbstractDestroyDirective {
           const item = domains[0] as any;
           console.log(item);
           const description = item.flavor_text_entries.find((entry: any) => entry.language.name === 'en').text;
-          const data: ItemCardDialogDataInterface = {
+          const data: CardInfoDialogDataInterface = {
             id: `Entry no. ${item.id}`,
             name: item.name,
             category: item.category.name,
@@ -56,7 +56,7 @@ export class ItemComponent extends AbstractDestroyDirective {
             data,
           };
           return this.lazyDialogService.createDialog(
-            import('../../shared/modules/item-card-dialog/item-card-dialog.module'), 'ItemCardDialogModule', 'itemCardDialogComponent', config)
+            import('../../shared/modules/card-info-dialog/card-info-dialog.module'), 'CardInfoDialogModule', 'cardInfoDialogComponent', config)
             .pipe(switchMap((pokemon) => {
               return of(pokemon);
             }));

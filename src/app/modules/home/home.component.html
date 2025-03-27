@@ -3,11 +3,10 @@
     <div class="virtual-container">
       <ng-container *cdkVirtualFor="let pokemon of pokemonDomain.results; trackBy trackPokemon; let index = index">
         <app-card-content (cardClicked)="handleShowPokemon(pokemon)" [domainData]="pokemon"
-                          [domain]="pokemonDomain.domain"
-                          [srcProps]="'front_default'">
+                          [domain]="pokemonDomain.domain" [srcProps]="'front_default'">
 
           <ng-container slot="app-id"> #{{ pokemon.id }}</ng-container>
-          <ng-container slot="app-bottom-title"> {{ pokemon.name }}</ng-container>
+          <ng-container slot="app-bottom-title"> {{ pokemon.name | titlecase }}</ng-container>
         </app-card-content>
       </ng-container>
     </div>

@@ -1,18 +1,18 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {ItemCardDialogDataInterface, PokemonTypeColor} from './item-card-dialog-data.interface';
+import {CardInfoDialogDataInterface, PokemonTypeColor} from './card-info-dialog-data.interface';
 import {PokemonTypeEnum} from '../../enum/pokemon-type.enum';
 
 @Component({
-  selector: 'app-item-card-dialog',
-  templateUrl: './item-card-dialog.component.html',
-  styleUrls: ['./item-card-dialog.component.scss'],
+  selector: 'app-card-info-dialog',
+  templateUrl: './card-info-dialog.component.html',
+  styleUrls: ['./card-info-dialog.component.scss'],
 })
-export class ItemCardDialogComponent {
+export class CardInfoDialogComponent {
   readonly PokemonTypeEnum = PokemonTypeEnum;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: ItemCardDialogDataInterface,
+    @Inject(MAT_DIALOG_DATA) public data: CardInfoDialogDataInterface,
   ) {
   }
 

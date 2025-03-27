@@ -5,7 +5,7 @@ import {HomeComponent} from './home.component';
 import {SharedPipeModule} from '../../shared/pipe/shared-pipe.module';
 import {MatCardModule} from '@angular/material/card';
 import {ScrollingModule} from '@angular/cdk/scrolling';
-import {CardContentModule} from '../../shared/modules/item-card/card-content.module';
+import {CardContentModule} from '../../shared/modules/card-content/card-content.module';
 
 
 @NgModule({

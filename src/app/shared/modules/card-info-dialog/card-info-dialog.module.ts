@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ItemCardDialogComponent} from './item-card-dialog.component';
+import {CardInfoDialogComponent} from './card-info-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -12,7 +12,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
-  declarations: [ItemCardDialogComponent],
+  declarations: [CardInfoDialogComponent],
   imports: [
     CommonModule,
     MatDialogModule,
@@ -24,10 +24,10 @@ import {MatExpansionModule} from '@angular/material/expansion';
     SharedPipeModule,
     MatExpansionModule,
   ],
-  exports: [ItemCardDialogComponent]
+  exports: [CardInfoDialogComponent]
 })
-export class ItemCardDialogModule {
-  static get itemCardDialogComponent(): typeof ItemCardDialogComponent {
-    return ItemCardDialogComponent;
+export class CardInfoDialogModule {
+  static get cardInfoDialogComponent(): typeof CardInfoDialogComponent {
+    return CardInfoDialogComponent;
   }
 }

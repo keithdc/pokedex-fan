@@ -3,8 +3,8 @@
     <mat-icon>{{ drawer.opened ? 'menu_open' : 'menu' }}</mat-icon>
   </button>
   <button (click)="handleRouteChange(RouteEnum.HOME, true)" [style.font-size]="'26px'" mat-button>{{ title }}</button>
-  <button (click)="handleRouteChange('', true) " [style.font-size]="'20px'" mat-button>Home</button>
-  <button (click)="handleRouteChange('', false)" [style.font-size]="'20px'" mat-button>Search</button>
+  <button (click)="handleRouteChange(RouteEnum.HOME, true) " [style.font-size]="'20px'" mat-button>Home</button>
+  <button (click)="handleRouteChange(RouteEnum.SEARCH, false)" [style.font-size]="'20px'" mat-button>Search</button>
 </mat-toolbar>
 
 <mat-drawer-container #trigger="cdkOverlayOrigin" autosize cdkOverlayOrigin class="example-container">

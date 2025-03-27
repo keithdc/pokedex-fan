@@ -1,4 +1,4 @@
-export interface ItemCardDialogDataInterface {
+export interface CardInfoDialogDataInterface {
   id: string;
   name: string;
   description: string;

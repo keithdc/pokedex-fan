@@ -10,7 +10,7 @@
       <h3 *ngIf="data.category">{{ data.category | titlecase }} </h3>
       <mat-chip-list [style.margin-top]="'15px'">
         <ng-container *ngFor="let pokemon of data.types; trackBy trackType; let i = index">
-          <mat-chip [style.background-color]="pokemon.color">{{ pokemon.type }}</mat-chip>
+          <mat-chip [style.background-color]="pokemon.color">{{ pokemon.type | titlecase }}</mat-chip>
         </ng-container>
       </mat-chip-list>
     </div>

@@ -5,8 +5,7 @@ import {ItemComponent} from './item.component';
 import {SharedPipeModule} from '../../shared/pipe/shared-pipe.module';
 import {MatCardModule} from '@angular/material/card';
 import {ScrollingModule} from '@angular/cdk/scrolling';
-import {CardContentComponent} from '../../shared/modules/item-card/card-content.component';
-import {CardContentModule} from '../../shared/modules/item-card/card-content.module';
+import {CardContentModule} from '../../shared/modules/card-content/card-content.module';
 
 
 @NgModule({
@@ -19,7 +18,7 @@ import {CardContentModule} from '../../shared/modules/item-card/card-content.mod
     SharedPipeModule,
     MatCardModule,
     ScrollingModule,
-    CardContentModule
+    CardContentModule,
   ],
 })
 export class ItemModule {

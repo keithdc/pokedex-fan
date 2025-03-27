@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: () => import('./modules/item/item.module').then(m => m.ItemModule),
     canActivate: [GuardService],
   },
+  {
+    path: RouteEnum.SEARCH,
+    loadChildren: () => import('./modules/search/search.module').then(m => m.SearchModule),
+    canActivate: [GuardService],
+  },
   {path: '', redirectTo: RouteEnum.HOME, pathMatch: 'full'},
   {
     path: '**',
