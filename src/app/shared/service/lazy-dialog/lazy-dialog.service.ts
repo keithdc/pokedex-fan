@@ -25,7 +25,7 @@ export class LazyDialogService<R> {
         const myComponent = m[module as keyof typeof NgModule][component as keyof typeof Component];
         const matDialogConfig: MatDialogConfig = {
           width: '450px',
-          height: '80vh',
+          height: '50vh',
         };
         this.ref = this.dialog
           .open(
