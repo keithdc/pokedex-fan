@@ -14,6 +14,7 @@ import {PokemonTypeEnum} from '../../shared/enum/pokemon-type.enum';
 import {MatDialogConfig} from '@angular/material/dialog';
 import {LazyDialogService} from '../../shared/service/lazy-dialog/lazy-dialog.service';
 import {CardInfoDialogDataInterface} from '../../shared/modules/card-info-dialog/card-info-dialog-data.interface';
+import {FilterFormControlInterface} from '../../shared/modules/filter/filter-form-control.interface';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,7 @@ import {CardInfoDialogDataInterface} from '../../shared/modules/card-info-dialog
 })
 export class HomeComponent extends AbstractDestroyDirective {
   pokemonDomain: AbstractDomainResultsInterface | undefined;
+  filter: FilterFormControlInterface | undefined;
 
   constructor(
     private apiBuilderService: ApiBuilderService,

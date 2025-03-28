@@ -6,6 +6,7 @@ import {SharedPipeModule} from '../../shared/pipe/shared-pipe.module';
 import {MatCardModule} from '@angular/material/card';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CardContentModule} from '../../shared/modules/card-content/card-content.module';
+import {FilterModule} from '../../shared/modules/filter/filter.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {CardContentModule} from '../../shared/modules/card-content/card-content.
     MatCardModule,
     ScrollingModule,
     CardContentModule,
+    FilterModule,
   ],
 })
 export class HomeModule {

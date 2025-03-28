@@ -1,7 +1,8 @@
 <ng-container *ngIf="pokemonDomain">
   <cdk-virtual-scroll-viewport class="pokemon-viewport" itemSize="29">
+    <app-filter (filter)="filter = $event" ></app-filter>
     <div class="virtual-container">
-      <ng-container *cdkVirtualFor="let pokemon of pokemonDomain.results; trackBy trackPokemon; let index = index">
+      <ng-container *cdkVirtualFor="let pokemon of pokemonDomain.results | filterDomain: filter; trackBy trackPokemon; let index = index">
         <app-card-content (cardClicked)="handleShowPokemon(pokemon)" [domainData]="pokemon"
                           [domain]="pokemonDomain.domain" [srcProps]="'front_default'">
 

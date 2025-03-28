@@ -14,6 +14,7 @@ import {MatDialogConfig} from '@angular/material/dialog';
 import {LazyDialogService} from '../../shared/service/lazy-dialog/lazy-dialog.service';
 import {CardInfoDialogDataInterface} from '../../shared/modules/card-info-dialog/card-info-dialog-data.interface';
 import {CardContentLayoutEnum} from '../../shared/modules/card-content/card-content-layout.enum';
+import {FilterFormControlInterface} from '../../shared/modules/filter/filter-form-control.interface';
 
 @Component({
   selector: 'app-item',
@@ -22,6 +23,7 @@ import {CardContentLayoutEnum} from '../../shared/modules/card-content/card-cont
 })
 export class ItemComponent extends AbstractDestroyDirective {
   itemDomain: AbstractDomainResultsInterface | undefined;
+  filter: FilterFormControlInterface | undefined;
   readonly CardLayoutEnum = CardContentLayoutEnum;
 
   constructor(
