@@ -12,6 +12,7 @@
 
   .content {
     display: flex;
+    flex-wrap: wrap;
 
     .info {
       display: flex;
@@ -20,8 +21,11 @@
     }
 
     img {
+      min-height: 250px;
+      min-width: 250px;
       height: 250px;
       width: 250px;
     }
   }
+
 }

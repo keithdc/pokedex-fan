@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <button (click)="drawer.toggle()" mat-icon-button>
+  <button (click)="handleOpenDrawer(!drawer.opened)" mat-icon-button>
     <mat-icon>{{ drawer.opened ? 'menu_open' : 'menu' }}</mat-icon>
   </button>
   <button (click)="handleRouteChange(RouteEnum.HOME, true)" [style.font-size]="'26px'" mat-button>{{ title }}</button>
@@ -7,31 +7,17 @@
   <button (click)="handleRouteChange(RouteEnum.SEARCH, false)" [style.font-size]="'20px'" mat-button>Search</button>
 </mat-toolbar>
 
-<mat-drawer-container #trigger="cdkOverlayOrigin" autosize cdkOverlayOrigin class="example-container">
-  <mat-drawer [style.width]="'300px'" mode="side" opened>
-    <mat-accordion class="example-headers-align" multi>
-      <mat-expansion-panel *ngFor="let sideNav of sideNavs; trackBy trackNav">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ sideNav.name }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+<mat-expansion-panel class="expansion-menu" hideToggle #expansionPanel>
+  <ng-container *ngIf="isMobile">
+    <ng-template [ngTemplateOutlet]="menu"></ng-template>
+  </ng-container>
+</mat-expansion-panel>
 
-        <ng-template matExpansionPanelContent>
-          <ng-container *ngIf="sideNav.subNav?.length">
-
-            <mat-action-list>
-              <mat-list-item
-                (click)="handleRouteChange(subNav?.route ?? '', true, {domain: subNav.domain, id: i + 1, url: subNav.url, defaultPage: subNav.default})"
-                *ngFor="let subNav of sideNav.subNav; trackBy trackNav; let i = index">
-                {{ subNav.name | titlecase }}
-              </mat-list-item>
-            </mat-action-list>
-          </ng-container>
-        </ng-template>
-
-      </mat-expansion-panel>
-    </mat-accordion>
+<mat-drawer-container #trigger="cdkOverlayOrigin" autosize cdkOverlayOrigin>
+  <mat-drawer [style.width]="'300px'" mode="side" [opened]="!isMobile">
+    <ng-container *ngIf="!isMobile">
+      <ng-template [ngTemplateOutlet]="menu"></ng-template>
+    </ng-container>
   </mat-drawer>
 
   <mat-drawer-content>
@@ -47,4 +33,30 @@
   cdkConnectedOverlay
 >
   <mat-spinner></mat-spinner>
+</ng-template>
+
+<ng-template #menu>
+  <mat-accordion multi>
+    <mat-expansion-panel *ngFor="let sideNav of sideNavs; trackBy trackNav">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ sideNav.name }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <ng-container *ngIf="sideNav.subNav?.length">
+
+          <mat-action-list>
+            <mat-list-item
+              (click)="handleRouteChange(subNav?.route ?? '', true, {domain: subNav.domain, id: i + 1, url: subNav.url, defaultPage: subNav.default})"
+              *ngFor="let subNav of sideNav.subNav; trackBy trackNav; let i = index">
+              {{ subNav.name | titlecase }}
+            </mat-list-item>
+          </mat-action-list>
+        </ng-container>
+      </ng-template>
+
+    </mat-expansion-panel>
+  </mat-accordion>
 </ng-template>

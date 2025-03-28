@@ -7,8 +7,9 @@ import {debounceTime, forkJoin, takeUntil} from 'rxjs';
 import {AbstractDestroyDirective} from '../../directive/abstract-destroy.directive';
 import {ApiBuilderService} from '../../../api/api-builder/api-builder.service';
 import {AbstractDomainEnum} from '../../../api/abstract/abstract-domain.enum';
-import {AbstractDomainResultsInterface} from '../../../api/abstract/abstract-domain-results.interface';
 import {NavInterface} from './nav.interface';
+import {MatExpansionPanel} from '@angular/material/expansion';
+import {WindowResizeService} from '../../service/window-resize/window-resize.service';
 
 @Component({
   selector: 'app-layout',
@@ -17,31 +18,28 @@ import {NavInterface} from './nav.interface';
 })
 export class LayoutComponent extends AbstractDestroyDirective implements OnInit {
   @ViewChild(MatDrawer, {static: true}) drawer!: MatDrawer;
+  @ViewChild(MatExpansionPanel, {static: true}) expansionPanel!: MatExpansionPanel;
   readonly title: string = 'Pokédex Fan';
   sideNavs: NavInterface[] = [];
   loading: boolean = false;
+  isMobile: boolean = false;
   readonly RouteEnum = RouteEnum;
 
   constructor(
     private router: Router,
     private coreService: CoreService,
     private apiBuilderService: ApiBuilderService,
+    private windowResizeService: WindowResizeService,
   ) {
     super();
-    this.coreService.loading
-      .pipe(
-        takeUntil(this.unsubscribeAll),
-        debounceTime(50),
-      )
-      .subscribe((loading) => {
-        this.loading = loading;
-      });
+    this.listenToLoading();
+    this.listenToResize();
   }
 
   ngOnInit(): void {
     forkJoin([
       this.apiBuilderService.buildApiDomain(AbstractDomainEnum.POKEDEX).get(),
-      this.apiBuilderService.buildApiDomain(AbstractDomainEnum.ITEM_CATEGORY).get()
+      this.apiBuilderService.buildApiDomain(AbstractDomainEnum.ITEM_CATEGORY).get(),
     ]).pipe(takeUntil(this.unsubscribeAll))
       .subscribe(([region, itemCategory]) => {
         const regionNav: NavInterface[] = region.results.flat().map(item => {
@@ -86,13 +84,49 @@ export class LayoutComponent extends AbstractDestroyDirective implements OnInit 
   handleRouteChange(
     route: string,
     drawerIsOpen: boolean,
-    {domain, id, url, defaultPage}: { domain?: string, id?: number, url?: string , defaultPage?: boolean} = {}): void {
+    {domain, id, url, defaultPage}: { domain?: string, id?: number, url?: string, defaultPage?: boolean } = {}): void {
     this.router.navigate([route], !defaultPage ? {queryParams: {domain, id}} : {}).then(() => {
-      this.drawer.toggle(drawerIsOpen).then();
+      this.handleOpenDrawer(drawerIsOpen);
     });
   }
 
   trackNav(index: number, nav: NavInterface): string {
     return nav.name;
+  }
+
+  handleOpenDrawer(drawerIsOpen: boolean): void {
+    if (this.windowResizeService.isMobile.value) {
+      if (this.expansionPanel.expanded) {
+        this.expansionPanel.close();
+      } else {
+        this.expansionPanel.open();
+      }
+    } else {
+      this.drawer.toggle(drawerIsOpen).then();
+    }
+  }
+
+  private listenToResize(): void {
+    this.windowResizeService.isMobile
+      .pipe(
+        takeUntil(this.unsubscribeAll),
+        debounceTime(50))
+      .subscribe(isMobile => {
+        this.isMobile = isMobile;
+        if (!this.isMobile && this.expansionPanel.expanded) {
+          this.expansionPanel.close();
+        }
+      });
+  }
+
+  private listenToLoading(): void {
+    this.coreService.loading
+      .pipe(
+        takeUntil(this.unsubscribeAll),
+        debounceTime(50),
+      )
+      .subscribe((loading) => {
+        this.loading = loading;
+      });
   }
 }

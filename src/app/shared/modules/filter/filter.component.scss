@@ -5,5 +5,21 @@
   align-items: center;
   justify-content: center;
   margin-top: 30px;
+
+  .filter-form {
+    width: 40%;
+  }
+
+  @media only screen and (max-width: 959px) {
+    .filter-form {
+      width: 60%;
+    }
+  }
+
+  @media only screen and (max-width: 599px) {
+    .filter-form {
+      width: 75%;
+    }
+  }
 }
 

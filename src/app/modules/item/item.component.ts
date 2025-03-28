@@ -44,7 +44,6 @@ export class ItemComponent extends AbstractDestroyDirective {
       this.apiBuilderService.buildApiDomain(this.itemDomain.domain).getById(+domain.id)
         .pipe(switchMap((domains) => {
           const item = domains[0] as any;
-          console.log(item);
           const description = item.flavor_text_entries.find((entry: any) => entry.language.name === 'en').text;
           const data: CardInfoDialogDataInterface = {
             id: `Entry no. ${item.id}`,
